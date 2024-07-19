@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Model Viewer with AR Button</title>
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  <style>
+    #ar-button {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      display: none;
+    }
+    model-viewer[ar-status="session-started"] #ar-button {
+      display: block;
+    }
+    model-viewer[ar-status="not-presenting"] #ar-button {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <model-viewer src="path/to/your/model.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls auto-rotate>
+    <button id="ar-button" onclick="window.location.href='https://example.com'">Go to Example.com</button>
+  </model-viewer>
+  <script>
+    const modelViewer = document.querySelector('model-viewer');
+    const arButton = document.getElementById('ar-button');
+
+    modelViewer.addEventListener('ar-status', (event) => {
+      if (event.detail.status === 'session-started') {
+        arButton.style.display = 'block';
+      } else {
+        arButton.style.display = 'none';
+      }
+    });
+  </script>
+</body>
+</html>
