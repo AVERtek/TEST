@@ -22,14 +22,6 @@
     #url-button {
       bottom: 60px; /* Adjust position to avoid overlap with AR button */
     }
-    model-viewer[ar-status="session-started"] #ar-button,
-    model-viewer[ar-status="session-started"] #url-button {
-      display: block;
-    }
-    model-viewer[ar-status="not-presenting"] #ar-button,
-    model-viewer[ar-status="not-presenting"] #url-button {
-      display: none;
-    }
   </style>
 </head>
 <body>
@@ -50,6 +42,16 @@
         arButton.style.display = 'none';
         urlButton.style.display = 'none';
       }
+    });
+
+    modelViewer.addEventListener('quick-look-button-tapped', () => {
+      arButton.style.display = 'block';
+      urlButton.style.display = 'block';
+    });
+
+    modelViewer.addEventListener('exit-webxr', () => {
+      arButton.style.display = 'none';
+      urlButton.style.display = 'none';
     });
   </script>
 </body>
