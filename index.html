@@ -6,7 +6,7 @@
   <title>Model Viewer with AR Button</title>
   <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
   <style>
-    #ar-button {
+    #ar-button, #url-button {
       position: absolute;
       bottom: 20px;
       left: 50%;
@@ -19,10 +19,15 @@
       cursor: pointer;
       display: none;
     }
-    model-viewer[ar-status="session-started"] #ar-button {
+    #url-button {
+      bottom: 60px; /* Adjust position to avoid overlap with AR button */
+    }
+    model-viewer[ar-status="session-started"] #ar-button,
+    model-viewer[ar-status="session-started"] #url-button {
       display: block;
     }
-    model-viewer[ar-status="not-presenting"] #ar-button {
+    model-viewer[ar-status="not-presenting"] #ar-button,
+    model-viewer[ar-status="not-presenting"] #url-button {
       display: none;
     }
   </style>
@@ -30,16 +35,20 @@
 <body>
   <model-viewer src="Models/CONSTRUCTION_CENTERED.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls auto-rotate>
     <button id="ar-button" onclick="window.location.href='https://example.com'">Go to Example.com</button>
+    <button id="url-button" onclick="window.location.href='https://another-url.com'">Go to Another URL</button>
   </model-viewer>
   <script>
     const modelViewer = document.querySelector('model-viewer');
     const arButton = document.getElementById('ar-button');
+    const urlButton = document.getElementById('url-button');
 
     modelViewer.addEventListener('ar-status', (event) => {
       if (event.detail.status === 'session-started') {
         arButton.style.display = 'block';
+        urlButton.style.display = 'block';
       } else {
         arButton.style.display = 'none';
+        urlButton.style.display = 'none';
       }
     });
   </script>
